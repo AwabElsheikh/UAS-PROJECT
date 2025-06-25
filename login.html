@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <style>
+        /* Basic Reset & Font */
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif; /* A common sans-serif font */
+            background-color: #ffffff; /* White background as in the picture */
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* Full viewport height */
+            color: #333; /* Default text color */
+        }
+
+        /* Top Header Layer (The "ooo" section) */
+        .top-header-layer {
+            width: 100%;
+            height: 50px; /* Adjust height as needed */
+            border-bottom: 1px solid #e0e0e0; /* Subtle line below header */
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            box-sizing: border-box;
+            background-color: #ffffff; /* White background for the header */
+        }
+
+        .top-header-layer .logo-placeholder {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333; /* Darker color for the "ooo" */
+        }
+
+        /* Main Content Area - for centering the login form */
+        .main-content-layer {
+            flex-grow: 1; /* Allows it to take up available space */
+            display: flex;
+            justify-content: center; /* Center horizontally */
+            align-items: flex-start; /* Align to the top of the flex container */
+            padding-top: 100px; /* Push content down from the top, mimicking the image */
+        }
+
+        /* Login Form Styling */
+        .login-container {
+            width: 100%;
+            max-width: 400px; /* Constrain width as in the image */
+            text-align: center; /* Center the text inside the container */
+            padding: 20px; /* Add some internal padding */
+            box-sizing: border-box;
+        }
+
+        .login-container h1 {
+            font-size: 40px; /* Larger font for LOGIN */
+            font-weight: bold;
+            color: #000000; /* Black for main heading */
+            margin-bottom: 5px; /* Reduce space below main heading */
+        }
+
+        .login-container p.subtitle {
+            font-size: 14px;
+            color: #451779; /* Dark purple/grey for subtitle, matching the image */
+            margin-top: 0;
+            margin-bottom: 40px; /* Space below subtitle */
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start; /* Align labels and inputs to the left */
+        }
+
+        .login-form label {
+            font-size: 12px;
+            color: #333; /* Darker color for labels */
+            text-transform: uppercase;
+            margin-bottom: 8px; /* Space below label */
+            margin-top: 20px; /* Space above label */
+        }
+
+        .login-form input[type="text"],
+        .login-form input[type="password"] {
+            width: 100%;
+            padding: 12px 15px;
+            margin-bottom: 20px; /* Space below input field */
+            border: 1px solid #e0e0e0; /* Light border */
+            border-radius: 4px; /* Slightly rounded corners for inputs */
+            font-size: 16px;
+            box-sizing: border-box; /* Include padding and border in the element's total width and height */
+            outline: none; /* Remove outline on focus */
+        }
+
+        .login-form input[type="text"]:focus,
+        .login-form input[type="password"]:focus {
+            border-color: #451779; /* Highlight border on focus, matching the image's accent color */
+        }
+
+        .login-form button {
+            width: 100%;
+            padding: 15px;
+            background-color: #451779; /* Dark purple button, matching the image */
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 4px; /* Slightly rounded corners for the button */
+            cursor: pointer;
+            margin-top: 10px; /* Space above button */
+            transition: background-color 0.3s ease;
+        }
+
+        .login-form button:hover {
+            background-color: #5d259c; /* Slightly lighter purple on hover */
+        }
+
+        /* Style for the "Don't have an account?" text */
+        .register-text {
+            font-size: 14px;
+            color: #666; /* A slightly darker grey for better readability */
+            margin-top: 25px; /* Space above the text */
+        }
+
+        .register-text a {
+            color: #451779; /* Matching the accent color for the link */
+            text-decoration: none; /* No underline */
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        .register-text a:hover {
+            color: #5d259c; /* Lighter purple on hover for the link */
+            text-decoration: underline; /* Underline on hover */
+        }
+
+
+        /* Footer Layer (page number) */
+        .footer-layer {
+            width: 100%;
+            text-align: right;
+            padding: 20px;
+            font-size: 14px;
+            color: #888; /* Grey color for page number */
+            box-sizing: border-box;
+        }
+
+        /* Custom Message Box Styles (for later JavaScript integration) */
+        .message-box-container {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #f44336; /* Red for error */
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            display: none; /* Hidden by default */
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            min-width: 250px;
+            text-align: center;
+        }
+
+        .message-box-container.show {
+            display: block;
+            opacity: 1;
+        }
+
+        .message-box-container.success {
+            background-color: #4CAF50; /* Green for success */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-header-layer">
+        <div class="logo-placeholder">ooo</div>
+    </div>
+
+    <div class="main-content-layer">
+        <div class="login-container">
+            <h1>LOGIN</h1>
+            <p class="subtitle">SIGN IN TO CONTINUE</p>
+
+            <!-- IMPORTANT: action="login.php" and method="POST" added here -->
+            <form class="login-form" id="loginForm" action="login.php" method="POST">
+                <label for="email">EMAIL</label>
+                <input type="text" id="email" name="email" placeholder="hello@reallygreatsite.com" required>
+
+                <label for="password">PASSWORD</label>
+                <input type="password" id="password" name="password" value="******" required>
+
+                <button type="submit">login</button>
+            </form>
+            <p class="register-text">Don't have an account? <a href="register.html" id="registerButton">Register</a></p>
+        </div>
+    </div>
+
+    <div class="footer-layer">
+        3
+    </div>
+
+    <div id="messageBox" class="message-box-container">
+        <span id="messageText"></span>
+    </div>
+
+    <script src="login.js"></script>
+
+</body>
+</html>
